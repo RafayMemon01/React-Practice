@@ -1,0 +1,24 @@
+.mainDiv{
+  height: 80vh;
+  margin: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  padding: 1em;
+  transition: background 2s;
+
+  div{
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+
+    button{
+      border-radius: 100%;
+      border: 1px solid black;
+      padding: 2rem;
+      font-size: large;
+      cursor: pointer;
+      box-shadow: inset white;
+    }
+  }
+}
