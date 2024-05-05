@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 function App() {
   const [passwordLength, setPasswordLength] = useState(8);
   const [isNumberAllowed, setIsNumberAllowed] = useState(false);
   const [isCharAllowed, setIsCharAllowed] = useState(false);
   const [password, setPassword] = useState("");
+
+  const passwordRef = useRef(null)
 
   const passwordGenerator = useCallback(() => {
     let pass = "";
@@ -19,6 +21,12 @@ function App() {
     setPassword(pass);
   }, [passwordLength, isNumberAllowed, isCharAllowed, setPassword]);
 
+  const passwordCopyToClipboard = useCallback(()=>{
+    passwordRef.current?.select();
+    passwordRef.current.setSelectionRange(0, 99);
+
+    window.navigator.clipboard.writeText(password);
+  },[password])
   useEffect(() => {
     passwordGenerator();
   }, [passwordLength, isNumberAllowed, isCharAllowed, passwordGenerator]);
@@ -33,12 +41,14 @@ function App() {
             className="outline-none w-full py-1 px-3"
             placeholder="Password"
             readOnly
+            ref={passwordRef}
+
           />
-          <button className="outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0">
+          <button onClick={passwordCopyToClipboard} className="outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0">
             copy
           </button>
         </div>
-        <div className="flex text-sm gap-x-2">
+        <div className="flex flex-wrap text-sm gap-x-2">
           <div className="flex items-center gap-x-1">
             <input
               type="range"
